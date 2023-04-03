@@ -1,0 +1,46 @@
+<p-card header="N en raya" subheader="Proyecto análisis de algoritmos">
+    <!-- <ng-template pTemplate="header">
+        <img alt="Card" src="https://images.cdn3.stockunlimited.net/preview1300/tic-tac-toe-pattern-background_1242337.jpg" />
+    </ng-template> -->
+    <ng-template pTemplate="content">
+
+        <div class="container">
+            <h1>Opciones de juego </h1>
+
+
+            <div class="selectors">
+                <p-dropdown [options]="[3,4,5,6]" [(ngModel)]="selectedSize"></p-dropdown>
+                <p-dropdown [options]="['VS-PC', 'VS-J2']" [(ngModel)]="selectedMode"></p-dropdown>
+            </div>
+            <p-button label="Jugar" styleClass="p-button-raised p-button-danger" (click)="newGame()"></p-button>
+
+
+            <div class="game" *ngIf="playing">
+                <h1>Jugador actual: '{{ player }}' </h1>
+                <h2>Modo de juego actual: '{{ selectedModeInternal }}' </h2>
+
+                <h2 *ngIf="winner">
+                    {{ winner }} Gana el juego!
+                </h2>
+
+
+                <main>
+                    <triqui-board *ngFor="let val of [].constructor(selectedSizeInternal); let i = index"
+                        [size]="selectedSizeInternal"
+                        [squares]="squares[i]"
+                        [player]="player"
+                        [(xIsNext)]="xIsNext"
+                    >
+        
+                    </triqui-board>
+                </main>
+
+
+
+            </div>
+
+
+        </div>
+
+    </ng-template>
+</p-card>

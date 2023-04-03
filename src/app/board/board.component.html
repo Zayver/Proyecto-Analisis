@@ -1,0 +1,8 @@
+<div class="container" [ngStyle]="{ 'grid-template-columns' : 'repeat('+this.size+', auto)'}">
+    <triqui-square 
+        *ngFor="let val of squares; let i = index"
+        [value]="val"
+        (click)="makeMove(i)"
+        > 
+    </triqui-square>
+</div>

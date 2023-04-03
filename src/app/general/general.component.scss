@@ -1,0 +1,41 @@
+p-card{
+    padding: 50px;
+    height: fit-content;
+    width: 80%;
+
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+    .selectors{
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+    }
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.game{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+
+
+
+
