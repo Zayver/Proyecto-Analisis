@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-
+//Board component
 @Component({
   selector: 'triqui-board',
   templateUrl: './board.component.html',
