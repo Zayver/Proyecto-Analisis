@@ -8,21 +8,18 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class BoardComponent{
 
 
-  @Input() player!: string
-  @Input() xIsNext!: boolean
-  @Output() xIsNextChange = new EventEmitter<boolean>()
-
-
   @Input() size!: number;
-  @Input() squares!: string[]
+  @Input() squares!: string[][]
+
+  @Input() boardId!: number
+
+  @Output() makeMoveEvent = new EventEmitter<{id: number, boardId: number}>()
 
 
-  makeMove(id: number) {
-    if (!this.squares[id]) {
-      this.squares.splice(id, 1, this.player);
-      this.xIsNextChange.emit(!this.xIsNext)
-    }
+  callMakeMove(id: number){
+    this.makeMoveEvent.emit({id: id, boardId: this.boardId})
   }
+
 
 
 

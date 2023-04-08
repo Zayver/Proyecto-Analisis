@@ -1,13 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'triqui-general',
   templateUrl: './general.component.html',
   styleUrls: ['./general.component.scss']
 })
-export class GeneralComponent {
-
-
+export class GeneralComponent{
   xIsNext!: boolean;
   playing: boolean = false
 
@@ -18,7 +16,7 @@ export class GeneralComponent {
   selectedSizeInternal: any;
   selectedModeInternal: any;
 
-  squares!: string[][];
+  squares: string[][] = [[]];
 
   get player() {
     return this.xIsNext ? "X" : "O"
@@ -33,11 +31,25 @@ export class GeneralComponent {
     this.fillSquares()
   }
 
-  fillSquares(){
+  fillSquares() {
     this.squares = Array(this.selectedSizeInternal).fill(null)
-    for(let i = 0; i< this.selectedSizeInternal; i++){
-      this.squares[i] = Array(this.selectedSizeInternal**2).fill(null)      
+    for (let i = 0; i < this.selectedSizeInternal; i++) {
+      this.squares[i] = Array(this.selectedSizeInternal ** 2).fill(null)
     }
   }
+
+  checkWinner() {
+    
+  }
+
+  makeMove(id: number, boardId: number) {
+    if (!this.squares[boardId][id]) {
+      this.squares[boardId].splice(id, 1, this.player);
+      this.xIsNext = !this.xIsNext
+    }
+    this.winner = this.checkWinner()
+    console.log(this.squares)
+  }
+
 
 }
