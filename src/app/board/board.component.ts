@@ -9,7 +9,7 @@ export class BoardComponent{
 
 
   @Input() size!: number;
-  @Input() squares!: string[][]
+  @Input() squares!: string[]
 
   @Input() boardId!: number
 

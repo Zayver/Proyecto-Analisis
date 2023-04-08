@@ -27,7 +27,7 @@
                 <main>
                     <triqui-board *ngFor="let val of [].constructor(selectedSizeInternal); let i = index"
                         [size]="selectedSizeInternal"
-                        [squares]="this.squares"
+                        [squares]="this.squares[i]"
                         (makeMoveEvent)="makeMove($event.id, $event.boardId)"
                         [boardId]="i"
                     >
