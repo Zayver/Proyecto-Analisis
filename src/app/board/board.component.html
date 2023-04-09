@@ -2,7 +2,8 @@
     <triqui-square 
         *ngFor="let val of squares; let i = index"
         [value]="val"
-        (click)="this.callMakeMove(i)"
+        (clickEvent)="this.callMakeMove(i)"
+        [active]="this.active"
         > 
     </triqui-square>
 </div>

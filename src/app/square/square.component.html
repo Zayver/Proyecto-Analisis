@@ -1,3 +1,3 @@
-<p-button styleClass="p-button-info" *ngIf="!value">{{value}}</p-button>
-<p-button styleClass="p-button-warning" *ngIf="value == 'X'">{{value}}</p-button>
-<p-button styleClass="p-button-help" *ngIf="value == 'O'">{{value}}</p-button>
+<p-button [disabled]="!active" (onClick)="this.clickE()" styleClass="p-button-info" *ngIf="!value">{{value}}</p-button>
+<p-button [disabled]="!active" (onClick)="this.clickE()" styleClass="p-button-warning" *ngIf="value == 'X'">{{value}}</p-button>
+<p-button [disabled]="!active" (onClick)="this.clickE()" styleClass="p-button-help" *ngIf="value == 'O'">{{value}}</p-button>

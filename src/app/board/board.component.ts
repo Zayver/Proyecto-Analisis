@@ -11,6 +11,8 @@ export class BoardComponent{
   @Input() size!: number;
   @Input() squares!: string[]
 
+  @Input() active!: boolean
+
   @Input() boardId!: number
 
   @Output() makeMoveEvent = new EventEmitter<{id: number, boardId: number}>()

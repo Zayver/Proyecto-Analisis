@@ -12,12 +12,12 @@
                 <p-dropdown [options]="[3,4,5,6]" [(ngModel)]="selectedSize"></p-dropdown>
                 <p-dropdown [options]="['VS-PC', 'VS-J2']" [(ngModel)]="selectedMode"></p-dropdown>
             </div>
-            <p-button label="Jugar" styleClass="p-button-raised p-button-danger" (click)="newGame()"></p-button>
+            <p-button label="Jugar" styleClass="p-button-raised p-button-danger" (onClick)="newGame()"></p-button>
 
 
             <div class="game" *ngIf="playing">
-                <h1>Jugador actual: '{{ player }}' </h1>
-                <h2>Modo de juego actual: '{{ selectedModeInternal }}' </h2>
+                <h1 *ngIf="!winner">Jugador actual: '{{ player }}' </h1>
+                <h2 *ngIf="!winner">Modo de juego actual: '{{ selectedModeInternal }}' </h2>
 
                 <h2 *ngIf="winner">
                     {{ winner }} Gana el juego!
@@ -30,6 +30,7 @@
                         [squares]="this.squares[i]"
                         (makeMoveEvent)="makeMove($event.id, $event.boardId)"
                         [boardId]="i"
+                        [active]="this.active"
                     >
         
                     </triqui-board>
