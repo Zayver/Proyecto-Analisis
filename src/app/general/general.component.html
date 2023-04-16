@@ -16,11 +16,15 @@
 
 
             <div class="game" *ngIf="playing">
-                <h1 *ngIf="!winner">Jugador actual: '{{ player }}' </h1>
-                <h2 *ngIf="!winner">Modo de juego actual: '{{ selectedModeInternal }}' </h2>
+                <h1 *ngIf="!winner && !tie">Jugador actual: '{{ player }}' </h1>
+                <h2 *ngIf="!winner && !tie">Modo de juego actual: '{{ selectedModeInternal }}' </h2>
 
                 <h2 *ngIf="winner">
                     {{ winner }} Gana el juego!
+                </h2>
+
+                <h2 *ngIf="tie">
+                    ¡ EMPATE !
                 </h2>
 
 

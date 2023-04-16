@@ -13,6 +13,8 @@ import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
+import { GameService } from './service/game.service';
+import { CpuService } from './service/cpu.service';
 
 
 @NgModule({
@@ -31,7 +33,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [GameService, CpuService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
