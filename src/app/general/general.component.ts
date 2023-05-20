@@ -18,6 +18,9 @@ export class GeneralComponent {
   winner: any;
   selectedSizeInternal: any;
   selectedModeInternal: any;
+  difOptions: any
+  selectedDifficulty: any
+  selectedDifficultyInternal: any
 
   squares: string[][] = [[]];
 
@@ -25,12 +28,15 @@ export class GeneralComponent {
   get player() {
     return this.xIsNext ? "X" : "O"
   }
+ 
 
-  get tie() {
-    return this.squares.every((v) => v.every((w) => w !== null))
+  constructor(private gameS: GameService, private cpuS: CpuService) {
+    this.difOptions = cpuS.difName
   }
 
-  constructor(private gameS: GameService, private cpuS: CpuService) { }
+  get tie(){
+    return this.gameS.tie(this.squares)
+  }
 
 
   newGame() {
@@ -38,13 +44,17 @@ export class GeneralComponent {
     this.playing = true
     this.winner = null;
     this.xIsNext = this.gameS.isXinit();
-    console.log("starter: " + this.player)
     this.active = true
     this.selectedSizeInternal = this.selectedSize
     this.selectedModeInternal = this.selectedMode
     this.fillSquares()
-    if (this.selectedModeInternal == "VS-PC" && this.player == "O") {
-      this.CPUplay()
+
+    if (this.selectedModeInternal == "VS-PC") {
+      this.cpuS.init(this.selectedDifficulty, "O")
+      this.selectedDifficultyInternal = this.selectedDifficulty
+      if(this.player == "O"){
+        this.CPUplay()
+      }
     }
   }
 

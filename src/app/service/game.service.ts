@@ -121,4 +121,8 @@ export class GameService {
     return start === 0
   }
 
+  tie(squares: readonly string[][]) {
+    return squares.every((v) => v.every((w) => w !== null))
+  }
+
 }
