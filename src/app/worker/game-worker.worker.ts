@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
-import { GameService } from './game.service';
-import { Observable, min, of } from 'rxjs';
+/// <reference lib="webworker" />
 
-@Injectable({
-  providedIn: 'root'
-})
-export class CpuService {
+addEventListener('message', ({ data }) => {
+  const response = `worker response to ${data}`;
+  postMessage(response);
+});
+
+
+class CPUWorker{
 
   private maxDepth = 0
   private maxPlayer = ""
@@ -38,7 +39,6 @@ export class CpuService {
     "Dummy", "Easy", "Medium", "Hard", "Impossible"
   ]
 
-  constructor(private gameS: GameService) { }
 
   init(dif: string, max: string, min: string) {
     this.maxDepth = this.dif.find((t) => {
@@ -93,7 +93,7 @@ export class CpuService {
   private minimax(squares: any[][], depth: number, max: boolean,
     boardId: number, valueId: number): number {
 
-    if(this.gameS.checkWinner(squares, valueId, boardId) !== null
+    if(this.checkWinner(squares, valueId, boardId) !== null
       || depth === 0){
         return this.evaluate(squares, boardId, valueId)
     }
@@ -131,7 +131,7 @@ export class CpuService {
 
 
   private evaluate(squares: readonly any[][], boardId: number, valueId: number): number{
-    const player = this.gameS.checkWinner(squares, valueId, boardId);
+    const player = this.checkWinner(squares, valueId, boardId);
     if(player === this.maxPlayer){
       return 10
     }
@@ -143,5 +143,105 @@ export class CpuService {
     }
   }
 
+  private checkWinner(squares: readonly string[][], id: number, boardId: number ): string | null{
+    const player = squares[boardId][id];
+    const size = Math.sqrt(squares[0].length)
+    
+    //check 2d board
+    const column = id%size
+    let arr = squares[boardId].filter( (v, i) => i%size==column)
+    if(arr.every(v=>v===player)){
+      return player
+    }
+    const row = Math.floor(id/size)*size
+    arr = squares[boardId].slice(row, row+size)
+    if(arr.every(v=>v===player)){
+      return player
+    }
 
+    //check diagonal if possible
+    if(id % (size+1) === 0 || id%(size-1) === 0){
+      arr = squares[boardId].filter((v, i) => i%(size+1) === 0)
+      if(arr.every(v=>v===player)){
+        return player
+      }
+      arr = squares[boardId].filter((v,i) => i%(size-1) === 0 && i !== (size**2-1) && i !== 0 )
+      if(arr.every(v=>v===player)){
+        return player
+      }
+    }
+
+    //check 3d
+    //check column
+    arr = squares.map((v, i) =>{
+      return squares[i][id]
+    })
+    if(arr.every(v=>v===player)){
+      return player
+    }
+
+    //check 3d row left-right
+    arr = squares.map((v,i) => {
+      return squares[i][row+i]
+    })
+    if(arr.every(v=>v===player)){
+      return player
+    }
+
+    //check 3d row right-left
+    arr = squares.map((v,i)=>{
+      return squares[size-1-i][row+i]
+    })
+    if(arr.every(v=>v===player)){
+      return player
+    }
+
+    //check 3d column up to down
+    arr = squares.map((v, i) =>{
+      return squares[i][column+(size*i)]
+    })
+    if(arr.every(v=>v===player)){
+      return player
+    }
+
+    arr = squares.map((v, i) =>{
+      return squares[size-1-i][column+(size*i)]
+    })
+    if(arr.every(v=>v===player)){
+      return player
+    }
+
+    //check diagonal if possible 3d
+    if(id % (size+1) === 0 || id%(size-1) === 0){
+      arr = squares.map((v, i) => {
+        return squares[i][size*i+(i%size)]
+      })
+      if(arr.every(v=>v===player)){
+        return player
+      }
+
+      arr = squares.map((v, i) =>{
+        return squares[i][(size-1)+(size-1)*i]
+      })
+      if(arr.every(v=>v===player)){
+        return player
+      }
+
+      arr = squares.map((v, i) => {
+        return squares[i][size*(size-1)- i*(size-1)]
+      })
+      if(arr.every(v=>v===player)){
+        return player
+      }
+
+      arr = squares.map((v, i) => {
+        return squares[i][((size*size)-1) - i*(size+1)]
+      })
+      if(arr.every(v=>v===player)){
+        return player
+      }
+    }
+    return null
+  }
+  
 }

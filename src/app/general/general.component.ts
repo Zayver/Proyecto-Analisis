@@ -50,7 +50,7 @@ export class GeneralComponent {
     this.fillSquares()
 
     if (this.selectedModeInternal == "VS-PC") {
-      this.cpuS.init(this.selectedDifficulty, "O")
+      this.cpuS.init(this.selectedDifficulty, "O", "X")
       this.selectedDifficultyInternal = this.selectedDifficulty
       if(this.player == "O"){
         this.CPUplay()
