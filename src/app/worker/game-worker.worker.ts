@@ -1,8 +1,9 @@
 /// <reference lib="webworker" />
 
 addEventListener('message', ({ data }) => {
-  const response = `worker response to ${data}`;
-  postMessage(response);
+  const cpu = new CPUWorker
+  cpu.init(data.dif, data.max, data.min)
+  postMessage(cpu.play(data.squares));
 });
 
 
@@ -33,10 +34,6 @@ class CPUWorker{
       name: "Impossible",
       depth: 500
     }
-  ]
-
-  readonly difName = [
-    "Dummy", "Easy", "Medium", "Hard", "Impossible"
   ]
 
 

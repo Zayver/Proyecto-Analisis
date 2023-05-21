@@ -12,6 +12,7 @@
                 <p-dropdown [options]="[3,4,5,6]" [(ngModel)]="selectedSize"></p-dropdown>
                 <p-dropdown [options]="['VS-PC', 'VS-J2']" [(ngModel)]="selectedMode"></p-dropdown>
                 <p-dropdown [options]="this.difOptions" [(ngModel)]="selectedDifficulty" *ngIf="this.selectedMode=='VS-PC'"></p-dropdown>
+                <h2 *ngIf="selectedDifficulty == 'Impossible'">¡PUEDE QUE NO TERMINE!</h2>
             </div>
             <p-button label="Jugar" styleClass="p-button-raised p-button-danger" (onClick)="newGame()"></p-button>
 
@@ -28,8 +29,6 @@
                 <h2 *ngIf="tie">
                     ¡ EMPATE !
                 </h2>
-
-
                 <main>
                     <triqui-board *ngFor="let val of [].constructor(selectedSizeInternal); let i = index"
                         [size]="selectedSizeInternal"

@@ -1,6 +1,6 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { GameService } from '../service/game.service';
-import { CpuService } from '../service/cpu.service';
+import { WorkerCommService } from '../service/worker-comm.service';
 
 @Component({
   selector: 'triqui-general',
@@ -30,8 +30,9 @@ export class GeneralComponent {
   }
  
 
-  constructor(private gameS: GameService, private cpuS: CpuService) {
-    this.difOptions = cpuS.difName
+  constructor(private gameS: GameService, private workerS: WorkerCommService) {
+    this.difOptions = this.workerS.difName
+    this.workerS.sub.subscribe({next: ([boardId, id])=> this.CPUplay(boardId, id)})
   }
 
   get tie(){
@@ -48,12 +49,14 @@ export class GeneralComponent {
     this.selectedSizeInternal = this.selectedSize
     this.selectedModeInternal = this.selectedMode
     this.fillSquares()
+    this.workerS.stop()
+
 
     if (this.selectedModeInternal == "VS-PC") {
-      this.cpuS.init(this.selectedDifficulty, "O", "X")
+      this.workerS.init(this.selectedDifficulty, "O", "X")
       this.selectedDifficultyInternal = this.selectedDifficulty
       if(this.player == "O"){
-        this.CPUplay()
+        this.callWorker()
       }
     }
   }
@@ -82,13 +85,11 @@ export class GeneralComponent {
     }
 
     if (this.selectedModeInternal == "VS-PC" && this.player == "O") {
-      this.CPUplay()
+      this.callWorker()
     }
   }
 
-  CPUplay() {
-    this.active = false
-    let [boardId, id] = this.cpuS.play(this.squares)
+  CPUplay(boardId: number, id: number) {
     this.squares[boardId].splice(id, 1, this.player)
 
     this.winner = this.gameS.checkWinner(this.squares, id, boardId)
@@ -103,6 +104,11 @@ export class GeneralComponent {
     }else{
       this.active = true
     }
+  }
+
+  callWorker(){
+    this.active = false
+    this.workerS.play(this.squares)
   }
 
 
